@@ -1,0 +1,8 @@
+.venv
+.sesskey
+tailwind.config.js
+local
+__pycache__
+.coverage
+htmlcov
+dist
