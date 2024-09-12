@@ -2,6 +2,8 @@
 
 A collection of utilities for FastHTML projects.
 
+If you don’t like to pip install, feel free to copy and paste the code! The project is structured to make copying and pasting easy.
+
 ## Docs
 
 Installation
@@ -13,7 +15,7 @@ uv add fh_utils
 
 ### Tailwindcss and Daisycss
 
-Add Tailwind / Daisy to your app
+Add Tailwind/Daisy to your app without any boilerplate
 
 ```python
 from fh_utils.tailwind import add_daisy_and_tailwind, add_tailwind, tailwind_compile
@@ -21,6 +23,7 @@ from fh_utils.tailwind import add_daisy_and_tailwind, add_tailwind, tailwind_com
 app, rt = fast_app(pico=False, static_path="public")
 
 # Usage 1: Add Tailwind CSS
+# The output css is saved as temporary file and served at /fh-utils/tailwindcss
 add_tailwind(app)
 
 # Usage 2: Add DaisyUI along with Tailwind CSS
@@ -60,6 +63,20 @@ See [here](src/fh_utils/tailwind.py) for a full example of config
     "python": "html"
   }
 }
+```
+
+### Heroicons
+
+https://heroicons.com/outline
+
+```python
+from fh_utils.heroicons import Heroicon
+
+# Works nicely with tailwind
+Heroicon("chart-bar-square", cls="size-10 fill-green-100 stroke-red-500 rotate-45")
+
+# And without tailwind
+Heroicon("chart-bar-square", "20/solid", width=40, stroke="red", fill="green", **transformd(rotate=(45, 25, 25)))
 ```
 
 ## Dev
