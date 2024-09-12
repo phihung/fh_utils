@@ -2,7 +2,7 @@
 
 A collection of utilities for FastHTML projects.
 
-If you don’t like to pip install, feel free to copy and paste the code! The project is structured to make copying and pasting easy.
+If you don’t like to _pip install_, feel free to copy and paste the code! The project is structured to make copying and pasting easy.
 
 ## Docs
 
@@ -65,18 +65,40 @@ See [here](src/fh_utils/tailwind.py) for a full example of config
 }
 ```
 
-### Heroicons
+### Icons
 
-https://heroicons.com/outline
+The icons are downloaded from github and saved in cache.
+
+https://phosphoricons.com - MIT  
+https://heroicons.com - MIT  
+https://ionic.io/ionicons - MIT  
+https://lucide.dev - Lucide License  
+https://fontawesome.com - CC BY 4.0  
+https://icons.getbootstrap.com - MIT
+https://boxicons.com - MIT
 
 ```python
-from fh_utils.heroicons import Heroicon
+from fh_utils.icons import HeroIcon, IonIcon, LcIcon, PhIcon, FaIcon, BsIcon, BoxIcon
 
 # Works nicely with tailwind
-Heroicon("chart-bar-square", cls="size-10 fill-green-100 stroke-red-500 rotate-45")
+kw = dict(cls="size-10 fill-green-100 stroke-red-500 rotate-45")
+PhIcon("airplane-in-flight", **kw)
+Heroicon("chart-bar-square", **kw)
+IonIcon("boat", **kw)
+LcIcon("message-square-heart", **kw)
+FaIcon("bell", **kw)
+BsIcon("bell", **kw)
+BoxIcon("smile", **kw)
 
 # And without tailwind
-Heroicon("chart-bar-square", "20/solid", width=40, stroke="red", fill="green", **transformd(rotate=(45, 25, 25)))
+kw = dict(width=40, stroke="red", fill="green")
+PhIcon("airplane-in-flight", "fill", **kw)
+Heroicon("chart-bar-square", "20/solid", **kw)
+IonIcon("boat", "sharp", **kw)
+LcIcon("message-square-heart", **kw)
+FaIcon("apple", "brands", **kw)
+BsIcon("apple", **kw)
+BoxIcon("smile", **kw)
 ```
 
 ## Dev
