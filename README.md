@@ -40,6 +40,9 @@ app, rt = fast_app(hdrs=[Link(rel="stylesheet", href="app.css")], pico=False, st
 
 The Tailwind CLI is automatically downloaded, and your CSS files are compiled, served, and integrated into your app.
 
+> [!NOTE]  
+> Under the hood, we use the bundle provided by [dobicinaitis/tailwind-cli-extra](https://github.com/dobicinaitis/tailwind-cli-extra). Please consider giving the author a star for recognition.
+
 #### Bonus: Using Tailwind CSS IntelliSense in VSCode
 
 1. Install the [Tailwind CSS IntelliSense extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)

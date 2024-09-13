@@ -9,23 +9,24 @@ add_daisy_and_tailwind(app)
 
 @app.get("/")
 def index():
-    return Div(icons_bar(), daisy_bar(), cls="mt-10")
+    return Div(cls="mt-10", data_theme="cupcake")(
+        icons_bar(),
+        daisy_bar(),
+    )
 
 
 def daisy_bar():
-    return Div(
+    return Div(cls="p-4 flex gap-4")(
         Button("Primary", cls="btn btn-primary"),
         Button("Secondary", cls="btn btn-secondary"),
         Button("Accent", cls="btn btn-accent"),
-        data_theme="cupcake",
-        cls="p-4 flex gap-4",
     )
 
 
 def icons_bar():
     kw1 = dict(cls="size-10 fill-green-100 stroke-red-500 rotate-45")
     kw2 = dict(width=40, stroke="red")
-    return Div(
+    return Div(cls="p-4 flex gap-4")(
         HeroIcon("chart-bar-square", **kw1),
         HeroIcon("chart-bar-square", **kw2),
         PhIcon("airplane-in-flight", **kw1),
@@ -40,7 +41,6 @@ def icons_bar():
         BsIcon("apple", "", **kw2),
         BoxIcon("signal-5", "regular", **kw1),
         BoxIcon("discord", "logos", **kw2),
-        cls="p-4 flex gap-4",
     )
 
 

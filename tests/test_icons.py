@@ -1,11 +1,34 @@
 from unittest import mock
 
+import pytest
 from diskcache import ENOVAL
 from fasthtml.common import to_xml
 from fasthtml.svg import transformd
 from inline_snapshot import snapshot
 
 from fh_utils import icons
+
+
+@pytest.mark.parametrize("cls,name,vars", [
+    (icons.IonIcon, "boat", ("", "sharp", "outline")),
+    (icons.HeroIcon, "chart-bar-square", ("24/outline", "24/solid", "20/solid", "16/solid")),
+    (icons.PhIcon, "airplane-in-flight", ("thin", "light", "regular", "bold", "fill", "duotone")),
+    (icons.LcIcon, "message-square-heart", ("",)),
+    (icons.FaIcon, "bell", ("regular", "solid")),
+    (icons.FaIcon, "apple", ("brands",)),
+    (icons.BsIcon, "apple", ("",)),
+    (icons.BoxIcon, "apple", ("logos",)),
+    (icons.BoxIcon, "smile", ("regular", "solid")),
+])  # fmt: skip
+def test_icons(cls, name, vars):
+    def run_test():
+        for v in vars:
+            e = cls(name, v, width=20)
+            assert e.width == 20
+
+    run_test()
+    with mock.patch.object(icons.cache, "get", return_value=ENOVAL):
+        run_test()
 
 
 def test_HeroIcon(tmp_path):
@@ -32,28 +55,6 @@ def test_HeroIcon(tmp_path):
         )
 
         assert to_xml(e2) == exp2
-
-    run_test()
-    with mock.patch.object(icons.cache, "get", return_value=ENOVAL):
-        run_test()
-
-
-def test_smoke():
-    def run_test():
-        for cls, name, vars in [
-            (icons.IonIcon, "boat", ("", "sharp", "outline")),
-            (icons.HeroIcon, "chart-bar-square", ("24/outline", "24/solid", "20/solid", "16/solid")),
-            (icons.PhIcon, "airplane-in-flight", ("thin", "light", "regular", "bold", "fill", "duotone")),
-            (icons.LcIcon, "message-square-heart", ("",)),
-            (icons.FaIcon, "bell", ("regular", "solid")),
-            (icons.FaIcon, "apple", ("brands",)),
-            (icons.BsIcon, "apple", ("",)),
-            (icons.BoxIcon, "apple", ("logos",)),
-            (icons.BoxIcon, "smile", ("regular", "solid")),
-        ]:  # fmt: skip
-            for v in vars:
-                e = cls(name, v, width=20)
-                assert e.width == 20
 
     run_test()
     with mock.patch.object(icons.cache, "get", return_value=ENOVAL):
