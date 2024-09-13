@@ -1,8 +1,12 @@
 # fh_utils
 
-A collection of utilities for FastHTML projects.
+A collection of utilities for FastHTML projects
 
-If you don’t like to _pip install_, feel free to copy and paste the code! The project is structured to make copying and pasting easy.
+**Features**
+
+- Jupyter notebook extension to run FastHTML apps.
+- Add Tailwind CSS / DaisyUI to your app without any boilerplate.
+- Icon packs: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, Boxicons.
 
 ## Docs
 
@@ -11,6 +15,49 @@ Installation
 ```bash
 pip install fh_utils
 uv add fh_utils
+```
+
+If you don’t like to _pip install_, feel free to copy and paste the code! The project is structured to make copying and pasting easy.
+
+### Jupyter Extension
+
+One line magic to serve your `app` and displaying in the notebook
+
+```python
+from fasthtml.common import Title, Main, H1, P, Button, fast_app
+app, rt = fast_app()
+count = 0
+
+@rt("/")
+def home():
+    return Title("Count Demo"), Main(
+        H1("Count Demo"),
+        P(f"Count is set to {count}", id="count"),
+        Button("Increment", hx_post="/increment", hx_target="#count", hx_swap="innerHTML"),
+    )
+@rt
+def increment():
+    global count
+    count += 1
+    return f"Count is set to {count}"
+
+%load_ext fh_utils
+%fh app
+```
+
+The line magic can be used multiple time in the notebook
+
+```python
+print("Current count is", count)  # new value
+count = 1234
+%fh app
+```
+
+Full syntax
+
+```bash
+%fh?
+%fh app [--page PAGE] [-w WIDTH] [-h HEIGHT] [-p PORT] app
 ```
 
 ### Tailwindcss and Daisycss
@@ -109,7 +156,7 @@ BoxIcon("smile", **kw)
 ```bash
 uv sync
 uv run pytest
-uv run demo
+uv run examples/demo.py
 rm -rf dist && uv build
 uvx twine upload dist/*
 ```

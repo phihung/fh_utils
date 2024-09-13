@@ -1,6 +1,6 @@
 [project]
 name = "fh_utils"
-version = "0.2.0"
+version = "0.3.0"
 description = "A collection of utilities for FastHTML projects"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -16,9 +16,6 @@ dependencies = [
 [tool.uv.sources]
 python-fasthtml = { git = "https://github.com/AnswerDotAI/fasthtml.git" }
 
-[project.scripts]
-demo = "fh_utils.demo:main"
-
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
@@ -30,6 +27,7 @@ dev-dependencies = [
     "pytest-cov>=5.0.0",
     "ruff>=0.0.284",
     "inline-snapshot>=0.13.0",
+    "testbook>=0.4.2",
 ]
 
 [tool.ruff]
@@ -37,4 +35,4 @@ line-length = 100
 target-version = "py311"
 
 [tool.pytest.ini_options]
-addopts = "--cov --cov-report term --cov-report html"
+addopts = "--cov=src --cov-report term --cov-report html"

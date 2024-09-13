@@ -45,7 +45,7 @@ def icons_bar():
 
 
 def main():
-    serve(f"{__package__}.demo", "app")
+    serve()
 
 
 if __name__ == "__main__":
