@@ -64,10 +64,9 @@ def add_daisy_and_tailwind(
     return _add(app, cfg, css, uri)
 
 
-def _add(app, cfg, css, uri):
+def _add(app: FastHTML, cfg, css, uri):
     outcss = tempfile.NamedTemporaryFile(delete=False)
-    tailwind_compile(Path(outcss.name), cfg, css)
-
+    app.router.on_startup.append(lambda: tailwind_compile(Path(outcss.name), cfg, css))
     app.hdrs.append(Link(rel="stylesheet", href=uri))
 
     @app.get(uri)

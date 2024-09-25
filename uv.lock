@@ -310,14 +310,14 @@ wheels = [
 
 [[package]]
 name = "fastcore"
-version = "1.7.5"
+version = "1.7.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "packaging" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/eb/9c/b57960a230f03dc18dcbb0453b82bded7bed2e0cdbbd8f21ef564addbda8/fastcore-1.7.5.tar.gz", hash = "sha256:c5525de04eab64a0d4f36fa422442302f76730bdeb6d9fb3fe5fbfcaaf3a9735", size = 75928 }
+sdist = { url = "https://files.pythonhosted.org/packages/ce/26/39248ce489ed4976acd8ed09d02b1bba678b1622858ac3a896c199e1f5f7/fastcore-1.7.9.tar.gz", hash = "sha256:3565ce75c5bde8e791d5eba82556e33ee191ad1f46731086a171961e12fba405", size = 76456 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/63/df/626807b92eb4728f34e0833a030d0cd8d87a617bbd8d318912efc329d5f4/fastcore-1.7.5-py3-none-any.whl", hash = "sha256:7d11cc34e6eb44cfe61eefc30440eb9a1f099fdf9c5f615a51121b4aa227cd87", size = 79596 },
+    { url = "https://files.pythonhosted.org/packages/0f/f1/6ae1f594363df65e5b64834bf62182e43ea8d2276adccc92223dbf109259/fastcore-1.7.9-py3-none-any.whl", hash = "sha256:2f155dc75a8198116315c36b085f09fb0e3811870b112d86a151d85f5fad4bed", size = 80077 },
 ]
 
 [[package]]
@@ -344,7 +344,7 @@ wheels = [
 
 [[package]]
 name = "fh-utils"
-version = "0.2.0"
+version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "diskcache" },
@@ -364,7 +364,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "diskcache", specifier = ">=5.6.3" },
-    { name = "python-fasthtml", git = "https://github.com/AnswerDotAI/fasthtml.git" },
+    { name = "python-fasthtml", specifier = ">=0.6.8" },
 ]
 
 [package.metadata.requires-dev]
@@ -870,8 +870,8 @@ wheels = [
 
 [[package]]
 name = "python-fasthtml"
-version = "0.5.3"
-source = { git = "https://github.com/AnswerDotAI/fasthtml.git#59ebbf0a0c909f2c441682d6d5a834dc40a19a03" }
+version = "0.6.8"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beautifulsoup4" },
     { name = "fastcore" },
@@ -883,6 +883,10 @@ dependencies = [
     { name = "python-multipart" },
     { name = "starlette" },
     { name = "uvicorn", extra = ["standard"] },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e7/80/daba6dc57285f5bf24024e81239485a2b271417c1e56865e105d2f6c9e3f/python-fasthtml-0.6.8.tar.gz", hash = "sha256:a4773ae18f5b9394679ce19eac89fa5214800194c57cf9d55aa7353dbde50f33", size = 51341 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ef/cd/00a600dd83a01258f0481b2ddb51c1336fa3b05e2b7cff040b553b4ee116/python_fasthtml-0.6.8-py3-none-any.whl", hash = "sha256:4bba1e89345686b046fa783424380da1d548cd5312894c343424783c1017090b", size = 55514 },
 ]
 
 [[package]]
