@@ -1,5 +1,6 @@
-from fasthtml.common import Button, Div, fast_app, serve
+from fasthtml.common import Button, Div, Titled, fast_app
 
+from fh_utils import serve
 from fh_utils.icons import BoxIcon, BsIcon, FaIcon, HeroIcon, IonIcon, LcIcon, PhIcon
 from fh_utils.tailwind import add_daisy_and_tailwind
 
@@ -9,10 +10,7 @@ add_daisy_and_tailwind(app)
 
 @app.get("/")
 def index():
-    return Div(cls="mt-10", data_theme="cupcake")(
-        icons_bar(),
-        daisy_bar(),
-    )
+    return Titled("fh utils", icons_bar(), daisy_bar(), cls="mt-10", data_theme="cupcake")
 
 
 def daisy_bar():

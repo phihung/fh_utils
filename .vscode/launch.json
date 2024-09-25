@@ -10,6 +10,14 @@
       "console": "integratedTerminal",
       "justMyCode": false,
       "env": { "PYTEST_ADDOPTS": "--no-cov" }
+    },
+    {
+      "name": "Run demo2",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "fh_utils.cli",
+      "args": ["dev", "examples/demo2.py"],
+      "justMyCode": false
     }
   ]
 }

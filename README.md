@@ -4,6 +4,7 @@ A collection of utilities for FastHTML projects
 
 **Features**
 
+- CLI and **Fast** reload.
 - Jupyter notebook extension to run FastHTML apps.
 - Add Tailwind CSS / DaisyUI to your app without any boilerplate.
 - Icon packs: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, Boxicons.
@@ -18,6 +19,71 @@ uv add fh_utils
 ```
 
 If you don’t like to _pip install_, feel free to copy and paste the code! The project is structured to make copying and pasting easy.
+
+### Fast Reload
+
+Automatically watch for changes and reload only the modified Python modules.
+
+```bash
+fh_utils dev path/to/your/app.py
+
+# The CLI supports all Uvicorn arguments (see uvicorn --help)
+fh_utils dev path/to/your/app.py --reload fast|full|no --reload-include src
+```
+
+You can also use `from fh_utils import serve` as a drop-in replacement for fasthtml's serve.
+
+<details><summary>More about CLI syntax</summary>
+
+```bash
+fh_utils dev --help
+fh_utils dev src/app.py --reload fast --port 8000 --log-level error --reload-include src
+fh_utils dev src/app.py --reload full
+fh_utils dev src/app.py --reload no
+```
+
+</details>
+
+**Real-World Example**
+
+In the following example, modifying `app.py` triggers fast-reload in under one second, while a full reload (i.e., Uvicorn reload) takes over 30 seconds.
+
+```python
+# app.py
+from models import load_model
+@app.post("/predict")
+def home(text: str):
+    # Modification in the file will not reload the other files
+    emb = load_model().encode(text)
+    return Div(f"Embedding shape: {emb.shape}", cls="text-pretty")
+
+# models.py
+from functools import cache
+@cache
+def load_model():
+    # Importing takes 20 seconds; loading the model takes 15 seconds.
+    from sentence_transformers import SentenceTransformer
+    return SentenceTransformer("clip-ViT-B-32-multilingual-v1")
+```
+
+#### Caveats and Utilities
+
+- We utilize IPython's **autoreload** magic under the hood, which comes with the same [caveats](https://ipython.readthedocs.io/en/stable/config/extensions/autoreload.html#caveats). This behavior may change in future releases.
+
+- Fast reload works at the module level (i.e., per `.py` file). If a file is modified, the entire module is reloaded. In the previous example, if `load_model` is in the same `app.py` file, the cache will not persist, as the function is redefined with an empty cache during the `app` module reload.
+
+To mitigate this, we provide the `no_reload_cache` and `no_reload` decorators, which prevent function redefinition during module reload. These decorators have **no impact** when fast reload is not used.
+
+```python
+from fh_utils import no_reload_cache
+
+@no_reload_cache
+def load_model():
+    # The cache remains valid after a module fast-reload!
+    # With `no_reload_cache`, it's safe to keep load_model in app.py
+```
+
+See [demo2](./examples/demo2.py) for a hands-on example.
 
 ### Jupyter Extension
 
