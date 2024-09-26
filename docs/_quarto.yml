@@ -23,7 +23,7 @@ website:
       - text: "Quickstart"
         href: index.qmd
       - cli.qmd
-      - fast-reload.qmd
+      - hot-reload.qmd
       - text: "Tailwind & Daisy"
         href: tailwind.qmd
       - jupyter.qmd

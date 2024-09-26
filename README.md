@@ -4,11 +4,11 @@ A collection of utilities for FastHTML projects
 
 ## Features
 
-- :sparkles: **Fast reload** :sparkles: for a frictionless developer experience.
-- CLI to easily run apps in both development and production modes.
-- Seamless integration of Tailwind CSS / DaisyUI without any boilerplate.
-- Jupyter notebook extension to run FastHTML apps.
-- Icon packs support: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, and Boxicons.
+- :sparkles: **[Hot reload mode](/hot-reload.html)** :sparkles: Automatically reloads _modified modules_ without restarting the entire application.
+- [CLI](/cli.html) to easily run apps in both development and production modes.
+- Seamless [integration](/tailwind.html) of Tailwind CSS / DaisyUI without any boilerplate.
+- Jupyter notebook [extension](/jupyter.html) to run FastHTML apps.
+- [Icon packs](/icons.html) support: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, and Boxicons.
 
 ## Installation
 
