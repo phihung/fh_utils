@@ -1,0 +1,44 @@
+---
+title: "Jupyter Extension"
+---
+
+Serve your `app` and displaying in the notebook.  
+The line magic can be used multiple times in the notebook, making it a great tool for iterative development.
+
+```bash
+%load_ext fh_utils
+%fh app [--page PAGE] [-w WIDTH] [-h HEIGHT] [-p PORT] app
+```
+
+## Example
+
+```python
+from fasthtml.common import Title, Main, H1, P, Button, fast_app
+app, rt = fast_app()
+count = 0
+
+@rt("/")
+def home():
+    return Title("Count Demo"), Main(
+        H1("Count Demo"),
+        P(f"Count is set to {count}", id="count"),
+        Button("Increment", hx_post="/increment", hx_target="#count", hx_swap="innerHTML"),
+    )
+@rt
+def increment():
+    global count
+    count += 1
+    return f"Count is set to {count}"
+
+%load_ext fh_utils
+%fh app
+```
+
+The line magic can be used multiple time in the notebook
+
+```python
+print("Current count is", count)  # new value
+count = 1234
+%fh app
+```
+

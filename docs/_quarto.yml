@@ -1,0 +1,42 @@
+project:
+  type: website
+
+execute:
+  freeze: true
+
+website:
+  title: "FastHTML Utilities"
+
+  # announcement:
+  #   content: "**New** - this is an announcement"
+  #   position: below-navbar
+
+  sidebar:
+    # style: "docked"
+    search: true
+    tools:
+      - icon: github
+        href: https://github.com/phihung/fh_utils
+      - icon: twitter
+        href: https://x.com/hunglp
+    contents:
+      - text: "Quickstart"
+        href: index.qmd
+      - cli.qmd
+      - fast-reload.qmd
+      - text: "Tailwind & Daisy"
+        href: tailwind.qmd
+      - jupyter.qmd
+      - icons.qmd
+
+format:
+  html:
+    theme: cosmo
+    # margin-left: auto
+    # margin-right: auto
+    # page-layout: full
+    # grid:
+    #   sidebar-width: 300px
+    #   body-width: 900px
+    #   margin-width: 0px
+    # css: styles.css

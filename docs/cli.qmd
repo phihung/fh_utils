@@ -1,0 +1,28 @@
+---
+title: "CLI"
+---
+
+The CLI utility provides an improved way to start the FastHTML app.  
+It ensures consistency between development and production environments, eliminating the need to hardcode options like `live=True` or `reload=True` in the code.
+
+## Dev
+```bash
+fh_utils dev --help
+
+# Start the app with "fast reload" and "live" updates
+fh_utils dev src/app.py --live
+
+# The command accepts Uvicorn arguments such as `--reload-include` and `--log-level` (refer to `uvicorn --help` for more details)
+fh_utils dev src/app.py --port 8000 --log-level error --reload-include src
+
+# Run with full Uvicorn reload
+fh_utils dev src/app.py --reload full
+```
+
+## Prod
+```bash
+fh_utils run --help
+
+# Production run: no reload, no live updates
+fh_utils run src/app.py
+```

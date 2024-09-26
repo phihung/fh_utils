@@ -1,0 +1,53 @@
+---
+title: "Icon Packs"
+---
+
+The `fh_utils.icons` module provides a simple interface for integrating multiple popular icon libraries into your applications.
+
+We make sure the icons to play nicely both with **Tailwind** and with standard css styles.
+
+```python
+IconPack("NAME", "VARIANT", **fasttag_attributes)
+IonIcon("boat", "sharp", cls="size-10 fill-green-100 stroke-red-500 rotate-45")
+```
+
+The following icon libraries are supported, each with its respective license and associated Python class:
+
+| Icon Library                                      | License        | Class      |
+|---------------------------------------------------|----------------|------------|
+| [Phosphoricons](https://phosphoricons.com)        | MIT            | `PhIcon`   |
+| [Heroicons](https://heroicons.com)                | MIT            | `Heroicon` |
+| [Ionicons](https://ionic.io/ionicons)             | MIT            | `IonIcon`  |
+| [Lucide](https://lucide.dev)                      | Lucide License | `LcIcon`   |
+| [Font Awesome](https://fontawesome.com)           | CC BY 4.0      | `FaIcon`   |
+| [Bootstrap Icons](https://icons.getbootstrap.com) | MIT            | `BsIcon`   |
+| [Boxicons](https://boxicons.com)                  | MIT            | `BoxIcon`  |
+
+The icons are fetched dynamically from GitHub when requested, and they are cached locally to avoid repeated downloads.
+
+## Usage
+
+```python
+from fh_utils.icons import HeroIcon, IonIcon, LcIcon, PhIcon, FaIcon, BsIcon, BoxIcon
+
+# Works nicely with tailwind
+kw = dict(cls="size-10 fill-green-100 stroke-red-500 rotate-45")
+PhIcon("airplane-in-flight", **kw)
+Heroicon("chart-bar-square", **kw)
+IonIcon("boat", **kw)
+LcIcon("message-square-heart", **kw)
+FaIcon("bell", **kw)
+BsIcon("bell", **kw)
+BoxIcon("smile", **kw)
+
+# And without tailwind
+kw = dict(width=40, stroke="red", fill="green")
+PhIcon("airplane-in-flight", "fill", **kw)
+Heroicon("chart-bar-square", "20/solid", **kw)
+IonIcon("boat", "sharp", **kw)
+LcIcon("message-square-heart", **kw)
+FaIcon("apple", "brands", **kw)
+BsIcon("apple", **kw)
+BoxIcon("smile", **kw)
+```
+

@@ -1,0 +1,75 @@
+---
+title: "Fast Reload"
+---
+
+Automatically watch for changes and reload only the modified Python modules.
+
+::: {.callout-tip}
+If your application involves loading large AI models, this can help reduce the reload time from minutes to just one second.
+:::
+
+Start your app in Fast Reload mode using the [CLI](/cli.html)
+
+```bash
+fh_utils dev path/to/your/app.py
+```
+
+It works great with `live` (browser auto refresh)
+
+```bash
+fh_utils dev path/to/your/app.py --live
+```
+
+You can also use `from fh_utils import serve` as a drop-in replacement for fasthtml's serve.
+
+```python
+if __name__ == "__main__":
+    fh_utils.serve()
+```
+
+It’s rarely necessary, but you can use the `no_reload_cache` decorator to maintain cache between fast reloads. This decorator is a simple wrapper around lru_cache and has no effect outside of fast reload mode.
+
+```python
+@fh_utils.no_reload_cache
+def load_model():
+    # The cache remains valid after a module fast-reload!
+```
+
+## Real-World Example
+
+In the following example, modifying `app.py` triggers fast-reload in under one second, while a full reload (i.e., Uvicorn reload) takes over 30 seconds.
+
+```python
+# -- app.py --
+from models import load_model
+@app.post("/predict")
+def home(text: str):
+    # Modification in the file will not reload the other files
+    emb = load_model().encode(text)
+    return Div(f"Embedding shape: {emb.shape}", cls="text-pretty")
+
+# -- models.py --
+# Use @fh_utils.no_reload_cache if you want to keep load_model in the same app.py module
+@functools.cache
+def load_model():
+    # Importing takes 20 seconds; loading the model takes 15 seconds.
+    from sentence_transformers import SentenceTransformer
+    return SentenceTransformer("clip-ViT-B-32-multilingual-v1")
+```
+
+## Caveats and Utilities
+
+- We utilize IPython's **autoreload** magic under the hood, which comes with the same [caveats](https://ipython.readthedocs.io/en/stable/config/extensions/autoreload.html#caveats). This behavior may change in future releases.
+
+- Fast reload works at the module level (i.e., per `.py` file). If a file is modified, the entire module is reloaded. In the previous example, if `load_model` is in the same `app.py` file, the cache will not persist, as the function is redefined with an empty cache during the `app` module reload.
+
+To mitigate this, we provide the `no_reload_cache` and `no_reload` decorators, which prevent function redefinition during module reload. These decorators have **no impact** when fast reload is not used.
+
+```python
+from fh_utils import no_reload_cache
+
+@no_reload_cache
+def load_model():
+    # The cache remains valid after a module fast-reload!
+    # With `no_reload_cache`, it's safe to keep load_model in app.py
+```
