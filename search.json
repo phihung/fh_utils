@@ -1,0 +1,172 @@
+[
+  {
+    "objectID": "icons.html",
+    "href": "icons.html",
+    "title": "Icon Packs",
+    "section": "",
+    "text": "The fh_utils.icons module provides a simple interface for integrating multiple popular icon libraries into your applications.\nWe make sure the icons to play nicely both with Tailwind and with standard css styles.\nThe following icon libraries are supported, each with its respective license and associated Python class:\nThe icons are fetched dynamically from GitHub when requested, and they are cached locally to avoid repeated downloads.",
+    "crumbs": [
+      "Icon Packs"
+    ]
+  },
+  {
+    "objectID": "icons.html#usage",
+    "href": "icons.html#usage",
+    "title": "Icon Packs",
+    "section": "Usage",
+    "text": "Usage\nfrom fh_utils.icons import HeroIcon, IonIcon, LcIcon, PhIcon, FaIcon, BsIcon, BoxIcon\n\n# Works nicely with tailwind\nkw = dict(cls=\"size-10 fill-green-100 stroke-red-500 rotate-45\")\nPhIcon(\"airplane-in-flight\", **kw)\nHeroicon(\"chart-bar-square\", **kw)\nIonIcon(\"boat\", **kw)\nLcIcon(\"message-square-heart\", **kw)\nFaIcon(\"bell\", **kw)\nBsIcon(\"bell\", **kw)\nBoxIcon(\"smile\", **kw)\n\n# And without tailwind\nkw = dict(width=40, stroke=\"red\", fill=\"green\")\nPhIcon(\"airplane-in-flight\", \"fill\", **kw)\nHeroicon(\"chart-bar-square\", \"20/solid\", **kw)\nIonIcon(\"boat\", \"sharp\", **kw)\nLcIcon(\"message-square-heart\", **kw)\nFaIcon(\"apple\", \"brands\", **kw)\nBsIcon(\"apple\", **kw)\nBoxIcon(\"smile\", **kw)",
+    "crumbs": [
+      "Icon Packs"
+    ]
+  },
+  {
+    "objectID": "tailwind.html",
+    "href": "tailwind.html",
+    "title": "Tailwindcss and Daisycss",
+    "section": "",
+    "text": "Oneliner to integrate Tailwind/Daisy to your app without any boilerplate",
+    "crumbs": [
+      "Tailwind & Daisy"
+    ]
+  },
+  {
+    "objectID": "tailwind.html#setup",
+    "href": "tailwind.html#setup",
+    "title": "Tailwindcss and Daisycss",
+    "section": "Setup",
+    "text": "Setup\nfrom fh_utils.tailwind import add_daisy_and_tailwind, add_tailwind, tailwind_compile\n\napp, rt = fast_app(pico=False, static_path=\"public\")\n\n# Usage 1: Add Tailwind CSS\n# The output css is saved as temporary file and served at /fh-utils/tailwindcss\nadd_tailwind(app)\n\n# Usage 2: Add DaisyUI along with Tailwind CSS\nadd_daisy_and_tailwind(app)\n\n# Usage 3: Customize Tailwind configuration\nadd_tailwind(app, cfg=Path(\"tailwind.config.js\").read_text(), css=\"your custom css\")\n\n# Usage 4: Serve via FastHTML's static route\n# Note: Don't forget to add public/app.css to your .gitignore\ntailwind_compile(\"public/app.css\")\napp, rt = fast_app(hdrs=[Link(rel=\"stylesheet\", href=\"app.css\")], pico=False, static_path=\"public\")\nThe Tailwind CLI is automatically downloaded, and your CSS files are compiled, served, and integrated into your app.\n\n\n\n\n\n\nNote\n\n\n\nUnder the hood, we use the bundle provided by dobicinaitis/tailwind-cli-extra",
+    "crumbs": [
+      "Tailwind & Daisy"
+    ]
+  },
+  {
+    "objectID": "tailwind.html#bonus-using-tailwind-css-intellisense-in-vscode",
+    "href": "tailwind.html#bonus-using-tailwind-css-intellisense-in-vscode",
+    "title": "Tailwindcss and Daisycss",
+    "section": "Bonus: Using Tailwind CSS IntelliSense in VSCode",
+    "text": "Bonus: Using Tailwind CSS IntelliSense in VSCode\n\nInstall the Tailwind CSS IntelliSense extension\nCreate a tailwind.config.js file at the root of your project and ensure that */.py is included in the content paths:\n\nmodule.exports = {\n  content: [\"**/*.py\"],\n};\nSee here for a full example of config\n\nAdd the following settings to your .vscode/settings.json file to enable IntelliSense support for Tailwind classes in Python:\n\n{\n  \"tailwindCSS.classAttributes\": [\"class\", \"cls\"],\n  \"tailwindCSS.includeLanguages\": {\n    \"python\": \"html\"\n  }\n}",
+    "crumbs": [
+      "Tailwind & Daisy"
+    ]
+  },
+  {
+    "objectID": "cli.html",
+    "href": "cli.html",
+    "title": "CLI",
+    "section": "",
+    "text": "The CLI utility provides an improved way to start the FastHTML app.\nIt ensures consistency between development and production environments, eliminating the need to hardcode options like live=True or reload=True in the code.",
+    "crumbs": [
+      "CLI"
+    ]
+  },
+  {
+    "objectID": "cli.html#dev",
+    "href": "cli.html#dev",
+    "title": "CLI",
+    "section": "Dev",
+    "text": "Dev\nfh_utils dev --help\n\n# Start the app with \"fast reload\" and \"live\" updates\nfh_utils dev src/app.py --live\n\n# The command accepts Uvicorn arguments such as `--reload-include` and `--log-level` (refer to `uvicorn --help` for more details)\nfh_utils dev src/app.py --port 8000 --log-level error --reload-include src\n\n# Run with full Uvicorn reload\nfh_utils dev src/app.py --reload full",
+    "crumbs": [
+      "CLI"
+    ]
+  },
+  {
+    "objectID": "cli.html#prod",
+    "href": "cli.html#prod",
+    "title": "CLI",
+    "section": "Prod",
+    "text": "Prod\nfh_utils run --help\n\n# Production run: no reload, no live updates\nfh_utils run src/app.py",
+    "crumbs": [
+      "CLI"
+    ]
+  },
+  {
+    "objectID": "jupyter.html",
+    "href": "jupyter.html",
+    "title": "Jupyter Extension",
+    "section": "",
+    "text": "Serve your app and displaying in the notebook.\nThe line magic can be used multiple times in the notebook, making it a great tool for iterative development.",
+    "crumbs": [
+      "Jupyter Extension"
+    ]
+  },
+  {
+    "objectID": "jupyter.html#example",
+    "href": "jupyter.html#example",
+    "title": "Jupyter Extension",
+    "section": "Example",
+    "text": "Example\nfrom fasthtml.common import Title, Main, H1, P, Button, fast_app\napp, rt = fast_app()\ncount = 0\n\n@rt(\"/\")\ndef home():\n    return Title(\"Count Demo\"), Main(\n        H1(\"Count Demo\"),\n        P(f\"Count is set to {count}\", id=\"count\"),\n        Button(\"Increment\", hx_post=\"/increment\", hx_target=\"#count\", hx_swap=\"innerHTML\"),\n    )\n@rt\ndef increment():\n    global count\n    count += 1\n    return f\"Count is set to {count}\"\n\n%load_ext fh_utils\n%fh app\nThe line magic can be used multiple time in the notebook\nprint(\"Current count is\", count)  # new value\ncount = 1234\n%fh app",
+    "crumbs": [
+      "Jupyter Extension"
+    ]
+  },
+  {
+    "objectID": "fast-reload.html",
+    "href": "fast-reload.html",
+    "title": "Fast Reload",
+    "section": "",
+    "text": "Automatically watch for changes and reload only the modified Python modules.\nStart your app in Fast Reload mode using the CLI\nIt works great with live (browser auto refresh)\nYou can also use from fh_utils import serve as a drop-in replacement for fasthtml’s serve.\nIt’s rarely necessary, but you can use the no_reload_cache decorator to maintain cache between fast reloads. This decorator is a simple wrapper around lru_cache and has no effect outside of fast reload mode.",
+    "crumbs": [
+      "Fast Reload"
+    ]
+  },
+  {
+    "objectID": "fast-reload.html#real-world-example",
+    "href": "fast-reload.html#real-world-example",
+    "title": "Fast Reload",
+    "section": "Real-World Example",
+    "text": "Real-World Example\nIn the following example, modifying app.py triggers fast-reload in under one second, while a full reload (i.e., Uvicorn reload) takes over 30 seconds.\n# -- app.py --\nfrom models import load_model\n@app.post(\"/predict\")\ndef home(text: str):\n    # Modification in the file will not reload the other files\n    emb = load_model().encode(text)\n    return Div(f\"Embedding shape: {emb.shape}\", cls=\"text-pretty\")\n\n# -- models.py --\n# Use @fh_utils.no_reload_cache if you want to keep load_model in the same app.py module\n@functools.cache\ndef load_model():\n    # Importing takes 20 seconds; loading the model takes 15 seconds.\n    from sentence_transformers import SentenceTransformer\n    return SentenceTransformer(\"clip-ViT-B-32-multilingual-v1\")",
+    "crumbs": [
+      "Fast Reload"
+    ]
+  },
+  {
+    "objectID": "fast-reload.html#caveats-and-utilities",
+    "href": "fast-reload.html#caveats-and-utilities",
+    "title": "Fast Reload",
+    "section": "Caveats and Utilities",
+    "text": "Caveats and Utilities\n\nWe utilize IPython’s autoreload magic under the hood, which comes with the same caveats. This behavior may change in future releases.\nFast reload works at the module level (i.e., per .py file). If a file is modified, the entire module is reloaded. In the previous example, if load_model is in the same app.py file, the cache will not persist, as the function is redefined with an empty cache during the app module reload.\n\nTo mitigate this, we provide the no_reload_cache and no_reload decorators, which prevent function redefinition during module reload. These decorators have no impact when fast reload is not used.\nfrom fh_utils import no_reload_cache\n\n@no_reload_cache\ndef load_model():\n    # The cache remains valid after a module fast-reload!\n    # With `no_reload_cache`, it's safe to keep load_model in app.py",
+    "crumbs": [
+      "Fast Reload"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "fh_utils",
+    "section": "",
+    "text": "A collection of utilities for FastHTML projects\n\n\n\n✨ Fast reload for frictionless developper experience.\n✨ CLI to run app in dev and in prod with easy.\nAdd Tailwind CSS / DaisyUI to your app without any boilerplate.\nJupyter notebook extension to run FastHTML apps.\nIcon packs: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, Boxicons.\n\n\n\n\npip install fh_utils\nuv add fh_utils\n\n\n\n\n\n\nTip\n\n\n\nIf you don’t like to pip install, feel free to copy and paste the code! The project is structured to make copying and pasting easy.\n\n\n\n\n\nuv sync\nuv run pytest\nuv run examples/demo.py\nrm -rf dist && uv build\nuvx twine upload dist/*",
+    "crumbs": [
+      "Intro"
+    ]
+  },
+  {
+    "objectID": "index.html#features",
+    "href": "index.html#features",
+    "title": "fh_utils",
+    "section": "",
+    "text": "✨ Fast reload for frictionless developper experience.\n✨ CLI to run app in dev and in prod with easy.\nAdd Tailwind CSS / DaisyUI to your app without any boilerplate.\nJupyter notebook extension to run FastHTML apps.\nIcon packs: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, Boxicons.",
+    "crumbs": [
+      "Intro"
+    ]
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "fh_utils",
+    "section": "",
+    "text": "pip install fh_utils\nuv add fh_utils\n\n\n\n\n\n\nTip\n\n\n\nIf you don’t like to pip install, feel free to copy and paste the code! The project is structured to make copying and pasting easy.",
+    "crumbs": [
+      "Intro"
+    ]
+  },
+  {
+    "objectID": "index.html#dev",
+    "href": "index.html#dev",
+    "title": "fh_utils",
+    "section": "",
+    "text": "uv sync\nuv run pytest\nuv run examples/demo.py\nrm -rf dist && uv build\nuvx twine upload dist/*",
+    "crumbs": [
+      "Intro"
+    ]
+  }
+]
