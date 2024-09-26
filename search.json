@@ -134,9 +134,9 @@
     "href": "index.html",
     "title": "fh_utils",
     "section": "",
-    "text": "A collection of utilities for FastHTML projects\n\n\n\n✨ Fast reload for frictionless developper experience.\n✨ CLI to run app in dev and in prod with easy.\nAdd Tailwind CSS / DaisyUI to your app without any boilerplate.\nJupyter notebook extension to run FastHTML apps.\nIcon packs: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, Boxicons.\n\n\n\n\npip install fh_utils\nuv add fh_utils\n\n\n\n\n\n\nTip\n\n\n\nIf you don’t like to pip install, feel free to copy and paste the code! The project is structured to make copying and pasting easy.\n\n\n\n\n\nuv sync\nuv run pytest\nuv run examples/demo.py\nrm -rf dist && uv build\nuvx twine upload dist/*",
+    "text": "A collection of utilities for FastHTML projects\n\n\n\n✨ Fast reload ✨ for a frictionless developer experience.\nCLI to easily run apps in both development and production modes.\nSeamless integration of Tailwind CSS / DaisyUI without any boilerplate.\nJupyter notebook extension to run FastHTML apps.\nIcon packs support: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, and Boxicons.\n\n\n\n\npip install fh_utils\nuv add fh_utils\n\n\n\n\n\n\nTip\n\n\n\nIf you don’t like to pip install, feel free to copy and paste the code! The project is structured to make copying and pasting easy.\n\n\n\n\n\nuv sync\nuv run pytest\nuv run examples/demo.py\n\nrm -rf dist && uv build\nuvx twine upload dist/*\n\nquarto publish gh-pages docs",
     "crumbs": [
-      "Intro"
+      "Quickstart"
     ]
   },
   {
@@ -144,9 +144,9 @@
     "href": "index.html#features",
     "title": "fh_utils",
     "section": "",
-    "text": "✨ Fast reload for frictionless developper experience.\n✨ CLI to run app in dev and in prod with easy.\nAdd Tailwind CSS / DaisyUI to your app without any boilerplate.\nJupyter notebook extension to run FastHTML apps.\nIcon packs: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, Boxicons.",
+    "text": "✨ Fast reload ✨ for a frictionless developer experience.\nCLI to easily run apps in both development and production modes.\nSeamless integration of Tailwind CSS / DaisyUI without any boilerplate.\nJupyter notebook extension to run FastHTML apps.\nIcon packs support: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, and Boxicons.",
     "crumbs": [
-      "Intro"
+      "Quickstart"
     ]
   },
   {
@@ -156,7 +156,7 @@
     "section": "",
     "text": "pip install fh_utils\nuv add fh_utils\n\n\n\n\n\n\nTip\n\n\n\nIf you don’t like to pip install, feel free to copy and paste the code! The project is structured to make copying and pasting easy.",
     "crumbs": [
-      "Intro"
+      "Quickstart"
     ]
   },
   {
@@ -164,9 +164,9 @@
     "href": "index.html#dev",
     "title": "fh_utils",
     "section": "",
-    "text": "uv sync\nuv run pytest\nuv run examples/demo.py\nrm -rf dist && uv build\nuvx twine upload dist/*",
+    "text": "uv sync\nuv run pytest\nuv run examples/demo.py\n\nrm -rf dist && uv build\nuvx twine upload dist/*\n\nquarto publish gh-pages docs",
     "crumbs": [
-      "Intro"
+      "Quickstart"
     ]
   }
 ]
