@@ -11,7 +11,6 @@ from functools import lru_cache, wraps
 from pathlib import Path
 
 import uvicorn
-from fasthtml.jupyter import nb_serve, wait_port_free
 from uvicorn.supervisors.watchfilesreload import FileFilter
 from watchfiles import watch
 
@@ -56,11 +55,25 @@ def serve(
     )
 
 
+def serve_prod(path: Path, app: str, host: str, port: int, **kwargs):
+    _, use_uvicorn_app = _get_import_string(path=path, app_name=app)
+    use_kwargs = dict(app=use_uvicorn_app, host=host, port=port, **kwargs)
+    uvicorn.run(**use_kwargs, reload=False)
+
+
 def serve_dev(
-    path: Path, app: str, host: str, port: int, reload: ReloadType = ReloadType.FAST, **kwargs
+    path: Path,
+    app: str,
+    host: str,
+    port: int,
+    live: bool = False,
+    reload: ReloadType = ReloadType.FAST,
+    **kwargs,
 ):
     module_import_str, use_uvicorn_app = _get_import_string(path=path, app_name=app)
     use_kwargs = dict(app=use_uvicorn_app, host=host, port=port, **kwargs)
+    if live and reload != ReloadType.FAST:
+        raise CliException("--live only supported in fast reload mode")
     if reload == ReloadType.NO_RELOAD:
         uvicorn.run(**use_kwargs, reload=False)
     elif reload == ReloadType.FULL:
@@ -68,15 +81,20 @@ def serve_dev(
     elif reload == ReloadType.FAST:
         try:
             _IN_FAST_RELOAD[0] = True
-            _run_with_fast_reload(module_import_str, app=app, host=host, port=port, **kwargs)
+            _run_with_fast_reload(
+                module_import_str, app_str=app, host=host, port=port, live=live, **kwargs
+            )
         finally:
             _IN_FAST_RELOAD[0] = False
     else:
         raise Exception(reload)
 
 
-def _run_with_fast_reload(module_import_str: str, app: str, port: int, host: str, **kwargs):
+def _run_with_fast_reload(
+    module_import_str: str, app_str: str, port: int, host: str, live: bool, **kwargs
+):
     try:
+        from fasthtml.jupyter import nb_serve, wait_port_free
         from IPython.extensions.autoreload import ModuleReloader
     except ImportError:  # pragma: no cover
         raise CliException("Needs ipython installed: pip install ipython")
@@ -103,7 +121,10 @@ def _run_with_fast_reload(module_import_str: str, app: str, port: int, host: str
             server.should_exit = True
             wait_port_free(port, host=host)
             time.sleep(0.2)
-        return nb_serve(getattr(module, app), **use_kwargs)
+        app = getattr(module, app_str)
+        if live:
+            _add_live_reload(app)
+        return nb_serve(app, **use_kwargs)
 
     global watcher
     global server
@@ -125,6 +146,8 @@ watcher, server = None, None
 
 
 def _terminate(port):
+    from fasthtml.jupyter import wait_port_free
+
     global watcher
     global server
     if watcher is not None:
@@ -245,3 +268,20 @@ class Watcher:
 
     def shutdown(self):
         self.should_exit.set()
+
+
+def _add_live_reload(app):
+    if hasattr(app, "LIVE_RELOAD_HEADER"):
+        return
+
+    from fasthtml.live_reload import LIVE_RELOAD_SCRIPT, FastHTMLWithLiveReload, Script
+
+    rt = FastHTMLWithLiveReload.LIVE_RELOAD_ROUTE
+    app.LIVE_RELOAD_HEADER = Script(
+        LIVE_RELOAD_SCRIPT.format(
+            reload_attempts=1,
+            reload_interval=1000,
+        )
+    )
+    app.hdrs.append(app.LIVE_RELOAD_HEADER)
+    app.router.add_ws(rt.path, rt.endpoint)

@@ -9,8 +9,6 @@ A collection of utilities for FastHTML projects
 - Add Tailwind CSS / DaisyUI to your app without any boilerplate.
 - Icon packs: Heroicons, Ionicons, Phosphor, Lucide, FontAwesome, Bootstrap, Boxicons.
 
-## Docs
-
 Installation
 
 ```bash
@@ -20,29 +18,20 @@ uv add fh_utils
 
 If you don’t like to _pip install_, feel free to copy and paste the code! The project is structured to make copying and pasting easy.
 
+## Docs
+
 ### Fast Reload
 
 Automatically watch for changes and reload only the modified Python modules.
 
 ```bash
 fh_utils dev path/to/your/app.py
-
-# The CLI supports all Uvicorn arguments (see uvicorn --help)
-fh_utils dev path/to/your/app.py --reload fast|full|no --reload-include src
+fh_utils dev path/to/your/app.py --live  # with live update
 ```
 
 You can also use `from fh_utils import serve` as a drop-in replacement for fasthtml's serve.
 
-<details><summary>More about CLI syntax</summary>
-
-```bash
-fh_utils dev --help
-fh_utils dev src/app.py --reload fast --port 8000 --log-level error --reload-include src
-fh_utils dev src/app.py --reload full
-fh_utils dev src/app.py --reload no
-```
-
-</details>
+See [CLI section](#cli) for more information.
 
 **Real-World Example**
 
@@ -84,6 +73,27 @@ def load_model():
 ```
 
 See [demo2](./examples/demo2.py) for a hands-on example.
+
+### CLI
+
+The CLI utility provides an improved way to start the FastHTML app.
+It ensures consistency between development and production environments, eliminating the need to hardcode options like `live=True` or `reload=True` in the code.
+
+```bash
+fh_utils --help
+
+# Start the app with "fast reload" and "live" updates
+fh_utils dev src/app.py --live
+
+# The command accepts Uvicorn arguments such as `--reload-include` and `--log-level` (refer to `uvicorn --help` for more details)
+fh_utils dev src/app.py --port 8000 --log-level error --reload-include src
+
+# Run with full Uvicorn reload
+fh_utils dev src/app.py --reload full
+
+# Production run: no reload, no live updates
+fh_utils run src/app.py
+```
 
 ### Jupyter Extension
 

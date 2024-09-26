@@ -6,15 +6,18 @@ from contextlib import contextmanager
 from functools import partial
 from pathlib import Path
 from threading import Thread
+from unittest.mock import patch
 
 import httpx
 import pytest
+from inline_snapshot import snapshot
 
 from fh_utils import serve
-from fh_utils.server import _terminate
+from fh_utils.server import _terminate, serve_prod
 
 PORT = 7951
 DEMO2_CODE = Path("examples/demo2.py").read_text()
+client = httpx.Client(base_url=f"http://0.0.0.0:{PORT}")
 logging.getLogger("uvicorn.error").setLevel(logging.CRITICAL)
 
 
@@ -33,7 +36,7 @@ def test_demo2_serve(tmp_path, monkeypatch: pytest.MonkeyPatch, capsys):
     monkeypatch.chdir(tmp_path.parent)
     fn = tmp_path / "myapp.py"
     fn.write_text(DEMO2_CODE)
-    t = Thread(target=partial(serve, appname=fn, reload_includes=["*.py"], port=PORT))
+    t = Thread(target=partial(serve, appname=fn, reload_includes=["*.py"], port=PORT, live=True))
     t.start()
     try:
         check_demo2(fn)
@@ -45,13 +48,12 @@ def test_demo2_serve(tmp_path, monkeypatch: pytest.MonkeyPatch, capsys):
 
 
 def check_demo2(fn):
-    client = httpx.Client(base_url=f"http://0.0.0.0:{PORT}")
     for _ in range(2):
-        wait_and_test(client, "SAVE")
+        wait_and_test("SAVE")
 
     fn.write_text(fn.read_text().replace("SAVE", "TADA"))
     time.sleep(2)
-    wait_and_test(client, "TADA")
+    wait_and_test("TADA")
 
 
 def test_two_files_1(tmp_path, monkeypatch: pytest.MonkeyPatch):
@@ -60,17 +62,16 @@ def test_two_files_1(tmp_path, monkeypatch: pytest.MonkeyPatch):
     fn1.write_text(
         "from fasthtml.common import fast_app\napp, rt = fast_app()\n@app.get('/')\ndef home():\n    return 320 + 1"
     )
-    client = httpx.Client(base_url=f"http://0.0.0.0:{PORT}")
     with run_in_process(fn1):
-        wait_and_test(client, "321")
+        wait_and_test("321")
 
         fn2.write_text("def foo():\n    return 120 + 3")
         fn1.write_text("from two import foo\n" + fn1.read_text().replace("320 + 1", "foo()"))
         time.sleep(1)
-        wait_and_test(client, "123")
+        wait_and_test("123")
 
         # fn2.write_text("def foo():\n    return 450 + 6")
-        # wait_and_test(client, "456")
+        # wait_and_test("456")
 
 
 def test_two_files_2(tmp_path, monkeypatch: pytest.MonkeyPatch):
@@ -80,12 +81,11 @@ def test_two_files_2(tmp_path, monkeypatch: pytest.MonkeyPatch):
         "from two import foo\nfrom fasthtml.common import fast_app\napp, rt = fast_app()\n@app.get('/')\ndef home():\n    return foo()"
     )
     fn2.write_text("def foo():\n    return 120 + 3")
-    client = httpx.Client(base_url=f"http://0.0.0.0:{PORT}")
     with run_in_process(fn1):
-        wait_and_test(client, "123")
+        wait_and_test("123")
 
         fn2.write_text("def foo():\n    return 450 + 6")
-        wait_and_test(client, "456")
+        wait_and_test("456")
 
 
 def test_three_files(tmp_path, monkeypatch: pytest.MonkeyPatch):
@@ -96,15 +96,46 @@ def test_three_files(tmp_path, monkeypatch: pytest.MonkeyPatch):
     )
     fn2.write_text("from three import bar\ndef foo():\n    return bar()")
     fn3.write_text("def bar():\n    return 120 + 3")
-    client = httpx.Client(base_url=f"http://0.0.0.0:{PORT}")
     with run_in_process(fn1):
-        wait_and_test(client, "123")
+        wait_and_test("123")
 
         fn3.write_text("def bar():\n    return 450 + 6")
-        wait_and_test(client, "456")
+        wait_and_test("456")
 
 
-def wait_and_test(client, exp):
+def test_prod_cli():
+    with run_in_process(Path("examples/demo2.py"), cmd="run"):
+        wait_and_test("SAVE")
+
+
+@patch("uvicorn.run")
+def test_serve_prod(mock):
+    serve_prod(Path("examples/demo2.py"), "app", "127.0.0.1", 1234)
+    assert repr(mock.call_args_list[0]) == snapshot(
+        "call(app='demo2:app', host='127.0.0.1', port=1234, reload=False)"
+    )
+    mock.assert_called_once()
+
+
+@patch("uvicorn.run")
+def test_dev_no_reload(mock):
+    serve(reload="no")
+    assert repr(mock.call_args_list[0]) == snapshot(
+        "call(app='tests.test_server:app', host='0.0.0.0', port=5001, reload_includes=None, reload_excludes=None, reload=False)"
+    )
+    mock.assert_called_once()
+
+
+@patch("uvicorn.run")
+def test_dev_full_reload(mock):
+    serve(reload="full")
+    assert repr(mock.call_args_list[0]) == snapshot(
+        "call(app='tests.test_server:app', host='0.0.0.0', port=5001, reload_includes=None, reload_excludes=None, reload=True)"
+    )
+    mock.assert_called_once()
+
+
+def wait_and_test(exp):
     for _ in range(50):
         try:
             if exp in client.get("/").content.decode():
@@ -116,9 +147,9 @@ def wait_and_test(client, exp):
 
 
 @contextmanager
-def run_in_process(fn: Path):
+def run_in_process(fn: Path, cmd="dev"):
     p = subprocess.Popen(
-        shlex.split(f"fh_utils dev {fn} --port {PORT}"),
+        shlex.split(f"fh_utils {cmd} {fn} --port {PORT}"),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         cwd=fn.parent.parent,
