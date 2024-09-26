@@ -1,6 +1,6 @@
 [project]
 name = "fh_utils"
-version = "0.3.0"
+version = "0.4.0"
 description = "A collection of utilities for FastHTML projects"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/phihung/fh_utils"
+"Homepage" = "https://phihung.github.io/fh_utils/"
 "Source" = "https://github.com/phihung/fh_utils"
 
 # [tool.uv.sources]
