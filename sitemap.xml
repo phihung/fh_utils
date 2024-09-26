@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://phihung.github.io/fh_utils/hot-reload.html</loc>
+    <loc>https://fh-utils.phle.dev/hot-reload.html</loc>
     <lastmod>2024-09-26T20:16:51.014Z</lastmod>
   </url>
   <url>
-    <loc>https://phihung.github.io/fh_utils/index.html</loc>
+    <loc>https://fh-utils.phle.dev/index.html</loc>
     <lastmod>2024-09-26T13:58:27.483Z</lastmod>
   </url>
   <url>
-    <loc>https://phihung.github.io/fh_utils/cli.html</loc>
+    <loc>https://fh-utils.phle.dev/cli.html</loc>
     <lastmod>2024-09-26T13:58:27.482Z</lastmod>
   </url>
   <url>
-    <loc>https://phihung.github.io/fh_utils/jupyter.html</loc>
+    <loc>https://fh-utils.phle.dev/jupyter.html</loc>
     <lastmod>2024-09-26T13:58:27.483Z</lastmod>
   </url>
   <url>
-    <loc>https://phihung.github.io/fh_utils/tailwind.html</loc>
+    <loc>https://fh-utils.phle.dev/tailwind.html</loc>
     <lastmod>2024-09-26T13:58:27.484Z</lastmod>
   </url>
   <url>
-    <loc>https://phihung.github.io/fh_utils/icons.html</loc>
+    <loc>https://fh-utils.phle.dev/icons.html</loc>
     <lastmod>2024-09-26T13:58:27.483Z</lastmod>
   </url>
 </urlset>

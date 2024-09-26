@@ -1,1 +1,1 @@
-Sitemap: https://phihung.github.io/fh_utils/sitemap.xml
+Sitemap: https://fh-utils.phle.dev/sitemap.xml
