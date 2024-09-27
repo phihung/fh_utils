@@ -15,7 +15,7 @@ def home():
 
 @no_reload_cache
 def load_model():
-    print("MODEL RELOAD: This message should be print only ONCE")
+    print("MODEL RELOAD: This message should display only ONCE")
     time.sleep(1)
     return lambda x: x.upper()
 

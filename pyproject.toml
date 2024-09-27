@@ -1,6 +1,6 @@
 [project]
 name = "fh_utils"
-version = "0.4.0"
+version = "0.4.1"
 description = "A collection of utilities for FastHTML projects"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -37,8 +37,7 @@ line-length = 100
 target-version = "py311"
 
 [tool.pytest.ini_options]
-addopts = "--cov=src --cov-report term --cov-report html"
-
+addopts = "--cov src --cov-branch --cov-report term --cov-report html --basetemp=local"
 
 [project.scripts]
 fh_utils = "fh_utils.cli:app"

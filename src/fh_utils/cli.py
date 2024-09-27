@@ -7,7 +7,7 @@ import typer
 
 from fh_utils import __version__, server
 
-app = typer.Typer(rich_markup_mode="rich")
+app = typer.Typer(rich_markup_mode="rich", pretty_exceptions_enable=False)
 logger = getLogger(__name__)
 
 

@@ -11,6 +11,8 @@ from functools import lru_cache, wraps
 from pathlib import Path
 
 import uvicorn
+from fasthtml.common import FastHTML, FastHTMLWithLiveReload, Script
+from fasthtml.live_reload import LIVE_RELOAD_SCRIPT
 from uvicorn.supervisors.watchfilesreload import FileFilter
 from watchfiles import watch
 
@@ -105,10 +107,10 @@ def _run_with_fast_reload(
     reloader._report = print
 
     use_kwargs = {
+        "log_level": None,
         **kwargs,
         "port": port,
         "host": host,
-        "log_level": None,
         "reload": False,
         "reload_dirs": None,
         "reload_includes": None,
@@ -123,7 +125,10 @@ def _run_with_fast_reload(
             time.sleep(0.2)
         app = getattr(module, app_str)
         if live:
-            _add_live_reload(app)
+            if not isinstance(app, FastHTML):
+                app = app()
+                use_kwargs["factory"] = False
+            _add_live_reload(app, use_kwargs)
         return nb_serve(app, **use_kwargs)
 
     global watcher
@@ -270,11 +275,9 @@ class Watcher:
         self.should_exit.set()
 
 
-def _add_live_reload(app):
+def _add_live_reload(app, kwargs):
     if hasattr(app, "LIVE_RELOAD_HEADER"):
         return
-
-    from fasthtml.live_reload import LIVE_RELOAD_SCRIPT, FastHTMLWithLiveReload, Script
 
     rt = FastHTMLWithLiveReload.LIVE_RELOAD_ROUTE
     app.LIVE_RELOAD_HEADER = Script(
@@ -285,3 +288,4 @@ def _add_live_reload(app):
     )
     app.hdrs.append(app.LIVE_RELOAD_HEADER)
     app.router.add_ws(rt.path, rt.endpoint)
+    return app
