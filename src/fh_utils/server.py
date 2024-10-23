@@ -287,5 +287,5 @@ def _add_live_reload(app, kwargs):
         )
     )
     app.hdrs.append(app.LIVE_RELOAD_HEADER)
-    app.router.add_ws(rt.path, rt.endpoint)
+    app.router.add_websocket_route(rt.path, rt.endpoint)
     return app

@@ -25,11 +25,17 @@ If you don’t like to _pip install_, feel free to copy and paste the code! The 
 
 ```bash
 uv sync
-uv run pytest
-uv run examples/demo.py
+alias tom="uv run tom"
 
-rm -rf dist && uv build
-uvx twine upload dist/*
+# List commands
+tom
 
-quarto publish gh-pages docs
+# Run tests
+tom test
+
+# Publish pypi
+tom publish
+
+# Publish docs
+tom publish-docs
 ```

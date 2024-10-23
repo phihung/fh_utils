@@ -1,14 +1,10 @@
 [project]
 name = "fh_utils"
-version = "0.4.1"
+version = "0.5.0"
 description = "A collection of utilities for FastHTML projects"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-    "python-fasthtml>=0.6.8",
-    "diskcache>=5.6.3",
-    "typer>=0.12.5",
-]
+dependencies = ["python-fasthtml>=0.8.0", "diskcache>=5.6.3", "typer>=0.12.5"]
 
 [project.urls]
 "Homepage" = "https://phihung.github.io/fh_utils/"
@@ -23,13 +19,14 @@ build-backend = "hatchling.build"
 
 [tool.uv]
 dev-dependencies = [
-    "ipykernel>=6.29.5",
-    "pytest>=8.3.2",
-    "pytest-cov>=5.0.0",
-    "ruff>=0.0.284",
-    "inline-snapshot>=0.13.0",
-    "testbook>=0.4.2",
-    "dirty-equals>=0.8.0",
+  "ipykernel>=6.29.5",
+  "pytest>=8.3.2",
+  "pytest-cov>=5.0.0",
+  "ruff>=0.0.284",
+  "inline-snapshot>=0.13.0",
+  "testbook>=0.4.2",
+  "dirty-equals>=0.8.0",
+  "tomlscript>=0.2.0",
 ]
 
 [tool.ruff]
@@ -41,3 +38,28 @@ addopts = "--cov src --cov-branch --cov-report term --cov-report html --basetemp
 
 [project.scripts]
 fh_utils = "fh_utils.cli:app"
+
+[tool.tomlscript]
+# Lint and test
+test = """
+uv run ruff check
+uv run pytest
+"""
+
+# Publish to PyPI
+publish = """
+version=$(sed -n 's/^version = "\\(.*\\)"/\\1/p' pyproject.toml)
+if [ -z "$version" ]; then
+  echo "Version not found in pyproject.toml"
+  exit 1
+fi
+
+# Create git tag with the extracted version
+git tag "v$version"
+
+rm -rf dist && uv build
+uvx twine upload dist/*
+"""
+
+# Publish quarto docs
+publish-docs = "quarto publish gh-pages docs"

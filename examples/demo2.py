@@ -23,4 +23,4 @@ def load_model():
 if __name__ == "__main__":
     # Run with: python examples/demo2.py
     # Or with : fh_utils dev examples/demo2.py
-    serve()
+    serve(live=True)
